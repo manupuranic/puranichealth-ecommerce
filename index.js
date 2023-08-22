@@ -4,6 +4,11 @@ import { fileURLToPath } from "url";
 import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
+import { config } from "dotenv";
+
+config();
+
+import connectDB from "./utils/database.js";
 
 const __filename = fileURLToPath(import.meta.url);
 
@@ -16,6 +21,12 @@ app.use(bodyParser.json());
 
 app.use(express.static(path.join(__dirname, "public")));
 
-app.listen(3002, () => {
-  console.log("server listening on port: 3002");
-});
+connectDB()
+  .then(() => {
+    app.listen(3002, () => {
+      console.log("Server Listening on port: 3002");
+    });
+  })
+  .catch((err) => {
+    console.log(err);
+  });
