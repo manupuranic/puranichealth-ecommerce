@@ -10,6 +10,8 @@ config();
 
 import connectDB from "./utils/database.js";
 import userRouter from "./routes/user.js";
+import categoryRouter from "./routes/category.js";
+import productRouter from "./routes/product.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -20,6 +22,8 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.use("/user", userRouter);
+app.use("/category", categoryRouter);
+app.use("/product", productRouter);
 
 app.use(express.static(path.join(__dirname, "public")));
 
