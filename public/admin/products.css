@@ -1,0 +1,126 @@
+.headers {
+  margin-top: 2%;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: auto;
+  margin-top: 2%;
+}
+
+.admin-nav a {
+  margin: 2%;
+}
+
+.nav-active {
+  background-color: #0581c0;
+}
+
+.nav-active:hover {
+  background-color: #096ea0;
+}
+
+.main-board {
+  width: 75%;
+  margin: auto;
+  margin-top: 2%;
+}
+
+.page-title {
+  color: #096ea0;
+}
+
+.body-div {
+  margin-top: 2%;
+}
+
+.title-div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.product-line {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+.product-info {
+  width: 50%;
+}
+
+.action-btns {
+  margin: auto;
+}
+
+.pricing-info {
+  width: 30%;
+}
+
+.product-name {
+  font-size: 1.3rem;
+}
+
+.product-category {
+  color: lightslategray;
+  font-style: italic;
+}
+
+.product-price {
+  font-weight: 500;
+  font-size: 1.2rem;
+  color: green;
+}
+
+.edit {
+  background-color: white;
+  color: #096ea0;
+  border-color: #096ea0;
+}
+
+.delete {
+  background-color: #e10505;
+  color: white;
+}
+
+.delete:hover {
+  background-color: #c10404;
+}
+
+label {
+  margin-top: 2%;
+}
+
+#message {
+  text-align: center;
+}
+
+.error {
+  color: orangered;
+}
+
+.success {
+  color: #03a503;
+}
+
+@media (max-width: 900px) {
+  .btn {
+    width: max-content;
+  }
+
+  .container {
+    width: 90%;
+  }
+
+  .main-board {
+    width: 90%;
+  }
+}

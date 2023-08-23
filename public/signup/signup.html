@@ -26,7 +26,8 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,400;0,500;0,600;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="../styles.css" />
+    <link rel="stylesheet" href="./signup.css" />
   </head>
   <body>
     <header>
@@ -56,7 +57,7 @@
                 <a class="nav-link" href="#">Cart</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link auth"></a>
+                <a class="nav-link" href="../login/login.html">Login</a>
               </li>
             </ul>
           </div>
@@ -64,19 +65,38 @@
       </nav>
     </header>
     <main>
-      <div class="loader-div">
-        <div class="spinner-border text-primary" role="status">
-          <span class="visually-hidden" id="loader">Loading...</span>
-        </div>
-      </div>
-      <div>
-        <div
-          class="row row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-4 gap-4"
-          id="productDiv"
-        ></div>
+      <div class="container rounded shadow-sm signup">
+        <h3 class="headers">Sign Up</h3>
+        <p class="" id="message"></p>
+        <form method="POST" id="signUpForm">
+          <label for="name" class="form-label">Full Name:</label>
+          <input
+            type="text"
+            name="name"
+            id="name"
+            class="form-control"
+            autofocus="true"
+          />
+          <label for="email" class="form-label">Email:</label>
+          <input type="email" name="email" id="email" class="form-control" />
+          <label for="phone" class="form-label" aria-required="">Phone:</label>
+          <input type="number" name="phone" id="phone" class="form-control" />
+          <label for="password" class="form-label">Password:</label>
+          <input
+            type="password"
+            name="password"
+            id="password"
+            class="form-control"
+          />
+          <input type="submit" value="Sign Up" class="btn btn-lg rounded" />
+          <p>
+            Existing user?
+            <a href="../login/login.html" class="page">Login</a>
+          </p>
+        </form>
       </div>
     </main>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="index.js"></script>
+    <script src="signup.js"></script>
   </body>
 </html>

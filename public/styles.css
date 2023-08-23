@@ -3,3 +3,115 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+body {
+  font-family: "Poppins", sans-serif;
+}
+
+.custom-nav {
+  background-color: #096ea0;
+}
+
+.custom-nav a {
+  color: white;
+}
+
+.custom-nav a:hover {
+  color: #76d1ff;
+}
+
+.auth {
+  cursor: pointer;
+}
+
+.container {
+  width: 35%;
+  padding: 2rem;
+}
+
+.headers {
+  color: #096ea0;
+  text-align: center;
+}
+
+#message {
+  text-align: center;
+}
+
+.error {
+  color: orangered;
+}
+
+.success {
+  color: #03a503;
+}
+
+.btn {
+  background-color: #096ea0;
+  color: white;
+}
+
+.btn:hover {
+  background-color: #0581c0;
+  color: white;
+}
+
+.page {
+  text-decoration: none;
+  color: #096ea0;
+}
+
+.page:hover {
+  color: #0581c0;
+}
+
+.loader-div {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 999;
+}
+
+#productDiv {
+  margin: 2%;
+}
+
+.card {
+  width: 300px;
+}
+
+.card img {
+  max-width: 100%; /* Ensure images don't exceed the card's width */
+  height: 250px; /* Maintain image aspect ratio */
+}
+
+.cta {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.detail-btn {
+  background-color: whitesmoke;
+  color: #096ea0;
+  border-color: #096ea0;
+  margin-right: 2%;
+}
+
+@media (max-width: 900px) {
+  .btn {
+    width: 100%;
+    margin-top: 5px;
+  }
+
+  .container {
+    width: 90%;
+  }
+}
+
+@media (max-width: 600px) {
+  .card {
+    margin: auto;
+    width: 300px;
+  }
+}

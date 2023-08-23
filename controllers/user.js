@@ -12,10 +12,10 @@ const generateJWT = (email, _id, role, name) => {
 const postSignupUser = async (req, res) => {
   const { name, email, password, phone } = req.body;
   try {
-    const existingUser = User.find({ email: email });
-    console.log(existingUser);
-    if (existingUser.length) {
-      return res.status(403).json({
+    const existingUser = await User.findOne({ email: email });
+    console.log("existing user: ", existingUser);
+    if (existingUser) {
+      return res.status(409).json({
         message: "user Already exist",
       });
     }
@@ -34,8 +34,7 @@ const postSignupUser = async (req, res) => {
         role: "Customer",
       });
       return res.json({
-        user: user,
-        message: "Successfully created user",
+        token: generateJWT(user.email, user._id, user.role, user.name),
       });
     });
   } catch (error) {
@@ -49,7 +48,6 @@ const postSignupUser = async (req, res) => {
 
 const postLoginUser = async (req, res) => {
   const { email, password } = req.body;
-  console.log(req.body);
   try {
     const user = await User.findOne({ email: email });
     if (!user) {
@@ -65,7 +63,7 @@ const postLoginUser = async (req, res) => {
         message: "Login successful",
       });
     } else {
-      return res.status(404).json({
+      return res.status(401).json({
         message: "Incorrect Password",
       });
     }
