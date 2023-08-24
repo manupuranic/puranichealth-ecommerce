@@ -79,6 +79,27 @@ const deleteProduct = async (req, res) => {
   }
 };
 
+const getSingleProduct = async (req, res) => {
+  const _id = req.params.id;
+  // const user = req.user;
+  // if(user.role !== 'Admin') {
+  //     return res.status(403).json({
+  //         message: 'Unauthorized'
+  //     })
+  // }
+  try {
+    const product = await Product.findById(_id).populate("category");
+    return res.json({
+      product: product,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: "something went wrong",
+    });
+  }
+};
+
 const getProducts = async (req, res) => {
   // const user = req.user;
   // if(user.role !== 'Admin') {
@@ -99,4 +120,10 @@ const getProducts = async (req, res) => {
   }
 };
 
-export { addNewProduct, editProduct, deleteProduct, getProducts };
+export {
+  addNewProduct,
+  editProduct,
+  deleteProduct,
+  getProducts,
+  getSingleProduct,
+};

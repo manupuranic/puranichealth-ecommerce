@@ -90,16 +90,43 @@ const displayProduct = (product) => {
   const editBtn = document.querySelector(`[edit-btn-id="${product._id}"]`);
   const deleteBtn = document.querySelector(`[delete-btn-id="${product._id}"]`);
 
-  editBtn.addEventListener("click", (e) => {
-    console.log("edit clicked");
+  editBtn.setAttribute("data-bs-toggle", "modal");
+  editBtn.setAttribute("data-bs-target", "#addProductModel");
+
+  editBtn.addEventListener("click", async (e) => {
+    const modalTitle = document.getElementById("model-label");
+    modalTitle.replaceChildren(document.createTextNode("Edit Category"));
+    const productId = e.target.parentElement.parentElement.id;
+    try {
+      const response = await axios.get(`${baseUrl}/product/${productId}`);
+      const product = response.data.product;
+      console.log(product.category.name);
+      document.getElementById("productName").value = product.name;
+      document.getElementById("price").value = product.price;
+      document.getElementById("imageUrl").value = product.imageUrl;
+      const category = document.getElementById("category");
+      category.value = product.category._id;
+      document.getElementById("desc").value = product.desc;
+      document.getElementById("hidden-input").value = product._id;
+    } catch (error) {
+      console.log(error);
+    }
   });
 
-  deleteBtn.addEventListener("click", (e) => {
-    console.log("delete clicked");
+  deleteBtn.addEventListener("click", async (e) => {
+    const productId = e.target.parentElement.parentElement.id;
+    try {
+      const response = await axios.delete(`${baseUrl}/product/${productId}`);
+      const product = response.data.product;
+      getProducts();
+    } catch (error) {
+      console.log(error);
+    }
   });
 };
 
 const getProducts = async () => {
+  productList.replaceChildren();
   try {
     const response = await axios.get(`${baseUrl}/product`);
     const products = response.data.products;
@@ -135,12 +162,13 @@ document.addEventListener("DOMContentLoaded", () => {
   getCategory();
 });
 
-const addNewProductFormHandler = () => {
+const addNewProductFormHandler = async () => {
   const productName = document.getElementById("productName");
   const price = document.getElementById("price");
   const imageUrl = document.getElementById("imageUrl");
   const category = document.getElementById("category");
   const desc = document.getElementById("desc");
+  const productId = document.getElementById("hidden-input");
 
   if (
     productName.value === "" ||
@@ -158,14 +186,45 @@ const addNewProductFormHandler = () => {
       category: category.value,
       desc: desc.value,
     };
-    console.log(productDetails);
-    messageHandler("Product Created", "success");
-    productName.value = "";
-    price.value = "";
-    imageUrl.value = "";
-    desc.value = "";
-    category.value = "choose a category";
+    let Url;
+    let networkCall;
+    let message;
+    if (productId.value) {
+      Url = `${baseUrl}/product/${productId.value}`;
+      networkCall = axios.put;
+      message = "Product Updated";
+    } else {
+      Url = `${baseUrl}/product`;
+      networkCall = axios.post;
+      message = "Product Created";
+    }
+
+    try {
+      const response = await networkCall(Url, productDetails);
+      const product = response.data.product;
+      messageHandler("Product Created", "success");
+      productName.value = "";
+      price.value = "";
+      imageUrl.value = "";
+      desc.value = "";
+      category.value = "choose a category";
+      document.getElementById("closeBtn").click();
+      getProducts();
+    } catch (error) {
+      console.log(error);
+    }
   }
 };
+
+addNewProduct.addEventListener("click", () => {
+  const modalTitle = document.getElementById("model-label");
+  modalTitle.replaceChildren(document.createTextNode("Add New Product"));
+  document.getElementById("productName").value = "";
+  document.getElementById("price").value = "";
+  document.getElementById("imageUrl").value = "";
+  document.getElementById("category").value = "";
+  document.getElementById("desc").value = "";
+  document.getElementById("hidden-input").value = "";
+});
 
 saveBtn.addEventListener("click", addNewProductFormHandler);

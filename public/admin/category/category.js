@@ -85,16 +85,37 @@ const displayCategory = (category) => {
   const editBtn = document.querySelector(`[edit-btn-id="${category._id}"]`);
   const deleteBtn = document.querySelector(`[delete-btn-id="${category._id}"]`);
 
-  editBtn.addEventListener("click", (e) => {
-    console.log("edit clicked");
+  editBtn.setAttribute("data-bs-toggle", "modal");
+  editBtn.setAttribute("data-bs-target", "#addCategoryModel");
+
+  editBtn.addEventListener("click", async (e) => {
+    const modalTitle = document.getElementById("model-label");
+    modalTitle.replaceChildren(document.createTextNode("Edit Category"));
+    const categoryId = e.target.parentElement.parentElement.id;
+    try {
+      const response = await axios.get(`${baseUrl}/category/${categoryId}`);
+      const category = response.data.category;
+      document.getElementById("categoryName").value = category.name;
+      document.getElementById("hidden-input").value = category._id;
+    } catch (error) {
+      console.log(error);
+    }
   });
 
-  deleteBtn.addEventListener("click", (e) => {
-    console.log("delete clicked");
+  deleteBtn.addEventListener("click", async (e) => {
+    const categoryId = e.target.parentElement.parentElement.id;
+    try {
+      const response = await axios.delete(`${baseUrl}/category/${categoryId}`);
+      const category = response.data.category;
+      getCategory();
+    } catch (error) {
+      console.log(error);
+    }
   });
 };
 
 const getCategory = async () => {
+  categoryList.replaceChildren();
   try {
     const response = await axios.get(`${baseUrl}/category`);
     const categories = response.data.categories;
@@ -110,8 +131,9 @@ document.addEventListener("DOMContentLoaded", () => {
   getCategory();
 });
 
-const addNewCategoryFormHandler = () => {
+const addNewCategoryFormHandler = async () => {
   const categoryName = document.getElementById("categoryName");
+  const categoryId = document.getElementById("hidden-input");
 
   if (categoryName.value === "") {
     messageHandler("Please Enter all the fields", "error");
@@ -119,10 +141,37 @@ const addNewCategoryFormHandler = () => {
     const categoryDetails = {
       name: categoryName.value,
     };
-    console.log(categoryDetails);
-    messageHandler("Category Created", "success");
-    categoryDetails.value = "";
+    let Url;
+    let networkCall;
+    let message;
+    if (categoryId.value) {
+      Url = `${baseUrl}/category/${categoryId.value}`;
+      networkCall = axios.put;
+      message = "Category Updated";
+    } else {
+      Url = `${baseUrl}/category`;
+      networkCall = axios.post;
+      message = "Category Created";
+    }
+    try {
+      const response = await networkCall(Url, categoryDetails);
+      const category = response.data.category;
+      messageHandler(`${message}`, "success");
+      document.getElementById("closeBtn").click();
+      getCategory();
+      categoryName.value = "";
+      categoryId.value = "";
+    } catch (error) {
+      console.log(error);
+    }
   }
 };
+
+addNewCategory.addEventListener("click", () => {
+  const modalTitle = document.getElementById("model-label");
+  modalTitle.replaceChildren(document.createTextNode("Add New Category"));
+  document.getElementById("categoryName").value = "";
+  document.getElementById("hidden-input").value = "";
+});
 
 saveBtn.addEventListener("click", addNewCategoryFormHandler);

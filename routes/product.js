@@ -4,6 +4,7 @@ import {
   deleteProduct,
   editProduct,
   getProducts,
+  getSingleProduct,
 } from "../controllers/product.js";
 import authenticate from "../middlewares/auth.js";
 
@@ -14,6 +15,8 @@ productRouter.post("/", addNewProduct);
 productRouter.put("/:id", editProduct);
 
 productRouter.get("/", getProducts);
+
+productRouter.get("/:id", getSingleProduct);
 
 productRouter.delete("/:id", deleteProduct);
 

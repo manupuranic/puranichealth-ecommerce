@@ -1,3 +1,7 @@
 .product-info {
   width: 80%;
 }
+
+label {
+  margin-top: 1%;
+}

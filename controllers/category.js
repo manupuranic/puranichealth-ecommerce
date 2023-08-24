@@ -72,6 +72,21 @@ const getCategories = async (req, res) => {
   }
 };
 
+const getSingleCategory = async (req, res) => {
+  const _id = req.params.id;
+  try {
+    const category = await Category.findById(_id);
+    return res.json({
+      category: category,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: "something went wrong",
+    });
+  }
+};
+
 const deleteCategory = async (req, res) => {
   // const user = req.user;
   const _id = req.params.id;
@@ -93,4 +108,10 @@ const deleteCategory = async (req, res) => {
   }
 };
 
-export { postNewCategory, editCategory, getCategories, deleteCategory };
+export {
+  postNewCategory,
+  editCategory,
+  getCategories,
+  deleteCategory,
+  getSingleCategory,
+};

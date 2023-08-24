@@ -4,6 +4,7 @@ import {
   editCategory,
   getCategories,
   deleteCategory,
+  getSingleCategory,
 } from "../controllers/category.js";
 import authenticate from "../middlewares/auth.js";
 
@@ -14,6 +15,8 @@ categoryRouter.post("/", postNewCategory);
 categoryRouter.put("/:id", editCategory);
 
 categoryRouter.get("/", getCategories);
+
+categoryRouter.get("/:id", getSingleCategory);
 
 categoryRouter.delete("/:id", deleteCategory);
 
