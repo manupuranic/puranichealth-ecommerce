@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost:3002";
+const baseUrl = "https://shop.puranic.in";
 
 const loginForm = document.getElementById("loginForm");
 const msg = document.getElementById("message");

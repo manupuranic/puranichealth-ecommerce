@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost:3002";
+const baseUrl = "https://shop.puranic.in";
 const auth = document.querySelector(".nav-item .auth");
 
 const token = localStorage.getItem("token");
