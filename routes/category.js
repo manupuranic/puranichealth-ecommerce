@@ -10,14 +10,14 @@ import authenticate from "../middlewares/auth.js";
 
 const categoryRouter = Router();
 
-categoryRouter.post("/", postNewCategory);
+categoryRouter.post("/", authenticate, postNewCategory);
 
-categoryRouter.put("/:id", editCategory);
+categoryRouter.put("/:id", authenticate, editCategory);
 
 categoryRouter.get("/", getCategories);
 
 categoryRouter.get("/:id", getSingleCategory);
 
-categoryRouter.delete("/:id", deleteCategory);
+categoryRouter.delete("/:id", authenticate, deleteCategory);
 
 export default categoryRouter;

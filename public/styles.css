@@ -8,6 +8,11 @@ body {
   font-family: "Poppins", sans-serif;
 }
 
+.brand {
+  font-size: 1.5rem;
+  color: white;
+}
+
 .custom-nav {
   background-color: #096ea0;
 }
@@ -18,6 +23,21 @@ body {
 
 .custom-nav a:hover {
   color: #76d1ff;
+}
+
+.cartLink {
+  position: relative;
+}
+
+.badge {
+  position: absolute;
+  top: 3px;
+  left: 40px;
+  background-color: red;
+  color: white;
+  padding: 5px;
+  border-radius: 50px;
+  font-size: x-small;
 }
 
 .auth {
@@ -70,6 +90,10 @@ body {
   left: 50%;
   top: 50%;
   z-index: 999;
+}
+
+#title {
+  margin-top: 2%;
 }
 
 #productDiv {

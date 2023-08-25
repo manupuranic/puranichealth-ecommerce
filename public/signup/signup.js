@@ -53,4 +53,11 @@ const signUpHandler = async (event) => {
   }
 };
 
+const home = document.getElementById("home");
+home.addEventListener("click", () => {
+  localStorage.removeItem("categoryId");
+  localStorage.setItem("category", "All");
+  window.location.href = "../index.html";
+});
+
 signUpForm.addEventListener("submit", signUpHandler);

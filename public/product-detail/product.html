@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Puranic Health</title>
+    <title id="page-title"></title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -27,13 +27,13 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="../styles.css" />
-    <link rel="stylesheet" href="./signup.css" />
+    <link rel="stylesheet" href="product.css" />
   </head>
   <body>
     <header>
       <nav class="navbar navbar-expand-lg custom-nav">
         <div class="container-fluid nav-div">
-          <h1 class="navbar-brand">Puranic Health</h1>
+          <h1 class="brand">Puranic Health</h1>
           <button
             class="navbar-toggler"
             type="button"
@@ -55,53 +55,43 @@
                   >Category</a
                 >
               </li>
-              <li class="nav-item">
+              <li class="nav-item cartLink">
                 <a class="nav-link" href="../cart-page/cart.html">Cart</a>
+                <div class="badge"></div>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="../orders-page/order.html">Orders</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="../login/login.html">Login</a>
+                <a class="nav-link auth"></a>
               </li>
             </ul>
           </div>
         </div>
       </nav>
     </header>
-    <main>
-      <div class="container rounded shadow-sm signup">
-        <h3 class="headers">Sign Up</h3>
-        <p class="" id="message"></p>
-        <form method="POST" id="signUpForm">
-          <label for="name" class="form-label">Full Name:</label>
-          <input
-            type="text"
-            name="name"
-            id="name"
-            class="form-control"
-            autofocus="true"
-          />
-          <label for="email" class="form-label">Email:</label>
-          <input type="email" name="email" id="email" class="form-control" />
-          <label for="phone" class="form-label" aria-required="">Phone:</label>
-          <input type="number" name="phone" id="phone" class="form-control" />
-          <label for="password" class="form-label">Password:</label>
-          <input
-            type="password"
-            name="password"
-            id="password"
-            class="form-control"
-          />
-          <input type="submit" value="Sign Up" class="btn btn-lg rounded" />
-          <p>
-            Existing user?
-            <a href="../login/login.html" class="page">Login</a>
-          </p>
-        </form>
+    <main class="container w-100">
+      <div class="loader-div">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden" id="loader">Loading...</span>
+        </div>
+      </div>
+      <div class="productDisplay">
+        <div class="sideImg">
+          <img src="" alt="" id="productImg" />
+        </div>
+        <div class="productInfo">
+          <h2 id="productName"></h2>
+          <h5 id="productCategory"></h5>
+          <span id="productPrice"></span>
+          <button class="btn">Add To Cart</button>
+          <div class="descDiv">
+            <p id="productDesc"></p>
+          </div>
+        </div>
       </div>
     </main>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="signup.js"></script>
+    <script src="product.js"></script>
   </body>
 </html>

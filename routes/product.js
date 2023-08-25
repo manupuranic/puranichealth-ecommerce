@@ -10,14 +10,14 @@ import authenticate from "../middlewares/auth.js";
 
 const productRouter = Router();
 
-productRouter.post("/", addNewProduct);
+productRouter.post("/", authenticate, addNewProduct);
 
-productRouter.put("/:id", editProduct);
+productRouter.put("/:id", authenticate, editProduct);
 
 productRouter.get("/", getProducts);
 
 productRouter.get("/:id", getSingleProduct);
 
-productRouter.delete("/:id", deleteProduct);
+productRouter.delete("/:id", authenticate, deleteProduct);
 
 export default productRouter;

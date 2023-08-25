@@ -27,14 +27,13 @@ if (token) {
   auth.appendChild(document.createTextNode("Logout"));
   user = parseJwt(token);
 } else {
-  auth.id = "login";
-  auth.appendChild(document.createTextNode("Login"));
+  window.location.href = "../../login/login.html";
 }
 
 if (user && user.role === "Admin") {
   const li = document.createElement("li");
   li.className = "nav-item";
-  li.innerHTML = `<a class="nav-link" href="./admin/dashboard.html">Admin</a>`;
+  li.innerHTML = `<a class="nav-link" href="../dashboard.html">Admin</a>`;
   auth.parentElement.insertAdjacentElement("beforebegin", li);
 }
 
@@ -51,13 +50,14 @@ const saveBtn = document.getElementById("saveBtn");
 
 if (login)
   login.addEventListener("click", () => {
-    window.location.href = "./login/login.html";
+    window.location.href = "../../login/login.html";
   });
 
 if (logout)
   logout.addEventListener("click", () => {
     localStorage.removeItem("token");
-    window.location.href = "./index.html";
+    localStorage.removeItem("cartCount");
+    window.location.href = "../../index.html";
   });
 
 const messageHandler = (message, type) => {
@@ -67,6 +67,16 @@ const messageHandler = (message, type) => {
     msg.innerText = "";
     msg.className = "";
   }, 5000);
+};
+
+const manageCartBadge = () => {
+  const cartCount = localStorage.getItem("cartCount");
+  const countDiv = document.querySelector(".badge");
+  if (cartCount === "true") {
+    countDiv.style.display = "block";
+  } else {
+    countDiv.style.display = "none";
+  }
 };
 
 const displayCategory = (category) => {
@@ -105,7 +115,9 @@ const displayCategory = (category) => {
   deleteBtn.addEventListener("click", async (e) => {
     const categoryId = e.target.parentElement.parentElement.id;
     try {
-      const response = await axios.delete(`${baseUrl}/category/${categoryId}`);
+      const response = await axios.delete(`${baseUrl}/category/${categoryId}`, {
+        headers: { Authentication: token },
+      });
       const category = response.data.category;
       getCategory();
     } catch (error) {
@@ -122,6 +134,7 @@ const getCategory = async () => {
     categories.forEach((category) => {
       displayCategory(category);
     });
+    manageCartBadge();
   } catch (error) {
     console.log(error);
   }
@@ -154,7 +167,9 @@ const addNewCategoryFormHandler = async () => {
       message = "Category Created";
     }
     try {
-      const response = await networkCall(Url, categoryDetails);
+      const response = await networkCall(Url, categoryDetails, {
+        headers: { Authentication: token },
+      });
       const category = response.data.category;
       messageHandler(`${message}`, "success");
       document.getElementById("closeBtn").click();
@@ -172,6 +187,13 @@ addNewCategory.addEventListener("click", () => {
   modalTitle.replaceChildren(document.createTextNode("Add New Category"));
   document.getElementById("categoryName").value = "";
   document.getElementById("hidden-input").value = "";
+});
+
+const home = document.getElementById("home");
+home.addEventListener("click", () => {
+  localStorage.removeItem("categoryId");
+  localStorage.setItem("category", "All");
+  window.location.href = "../../index.html";
 });
 
 saveBtn.addEventListener("click", addNewCategoryFormHandler);

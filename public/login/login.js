@@ -49,4 +49,11 @@ const loginHandler = async (e) => {
   }
 };
 
+const home = document.getElementById("home");
+home.addEventListener("click", () => {
+  localStorage.removeItem("categoryId");
+  localStorage.setItem("category", "All");
+  window.location.href = "../index.html";
+});
+
 loginForm.addEventListener("submit", loginHandler);

@@ -53,6 +53,16 @@ if (logout)
     window.location.href = "./index.html";
   });
 
+const manageCartBadge = () => {
+  const cartCount = localStorage.getItem("cartCount");
+  const countDiv = document.querySelector(".badge");
+  if (cartCount === "true") {
+    countDiv.style.display = "block";
+  } else {
+    countDiv.style.display = "none";
+  }
+};
+
 const displayProducts = (product) => {
   const {
     _id,
@@ -73,9 +83,6 @@ const displayProducts = (product) => {
             <div class="card-body">
               <h5 class="card-name">${name}</h5>
               <p class="card-price">₹${price}</p>
-              <p class="card-desc">
-                ${desc}
-              </p>
               <div class="cta">
                 <button class="btn detail-btn" detail-id=${_id}>Details</button>
                 <button class="btn cart-btn" add-to-cart-id=${_id}>Add to cart</button>
@@ -86,20 +93,40 @@ const displayProducts = (product) => {
   const addToCartBtn = document.querySelector(`[add-to-cart-id="${_id}"]`);
 
   detailsBtn.addEventListener("click", (e) => {
-    console.log(e.target);
-    console.log("clicked details");
+    localStorage.setItem("productId", _id);
+    window.location.href = "./product-detail/product.html";
   });
 
-  addToCartBtn.addEventListener("click", (e) => {
-    console.log(e.target);
-    console.log("clicked add-to-cart");
+  addToCartBtn.addEventListener("click", async (e) => {
+    loader.parentElement.style.display = "block";
+    const productId = _id;
+    console.log(productId);
+    try {
+      const response = await axios.post(
+        `${baseUrl}/cart`,
+        { productId: productId },
+        { headers: { Authentication: token } }
+      );
+      localStorage.setItem("cartCount", true);
+      manageCartBadge();
+      loader.parentElement.style.display = "none";
+    } catch (error) {
+      console.log(error);
+    }
   });
 };
 
 const getProducts = async () => {
+  const categoryName = localStorage.getItem("category");
+  manageCartBadge();
+  document
+    .getElementById("title")
+    .appendChild(document.createTextNode(`${categoryName} products`));
   try {
-    loader;
-    const response = await axios.get(`${baseUrl}/product`);
+    const localCategory = localStorage.getItem("categoryId");
+    const response = await axios.get(
+      `${baseUrl}/product?category=${localCategory}`
+    );
     const products = response.data.products;
     products.forEach((product) => {
       displayProducts(product);
@@ -109,5 +136,12 @@ const getProducts = async () => {
     console.log(error);
   }
 };
+
+const home = document.getElementById("home");
+home.addEventListener("click", () => {
+  localStorage.removeItem("categoryId");
+  localStorage.setItem("category", "All");
+  window.location.href = "./index.html";
+});
 
 document.addEventListener("DOMContentLoaded", getProducts);

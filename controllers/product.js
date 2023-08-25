@@ -2,12 +2,12 @@ import Product from "../models/product.js";
 
 const addNewProduct = async (req, res) => {
   const { name, imageUrl, price, desc, category } = req.body;
-  // const user = req.user;
-  // if(user.role !== 'Admin') {
-  //     return res.status(403).json({
-  //         message: 'Unauthorized'
-  //     })
-  // }
+  const user = req.user;
+  if (user.role !== "Admin") {
+    return res.status(403).json({
+      message: "Unauthorized",
+    });
+  }
   try {
     const product = await Product.create({
       name: name,
@@ -31,12 +31,12 @@ const addNewProduct = async (req, res) => {
 const editProduct = async (req, res) => {
   const { name, imageUrl, price, desc, category } = req.body;
   const _id = req.params.id;
-  // const user = req.user;
-  // if(user.role !== 'Admin') {
-  //     return res.status(403).json({
-  //         message: 'Unauthorized'
-  //     })
-  // }
+  const user = req.user;
+  if (user.role !== "Admin") {
+    return res.status(403).json({
+      message: "Unauthorized",
+    });
+  }
   try {
     const product = await Product.findByIdAndUpdate(_id, {
       name: name,
@@ -59,12 +59,12 @@ const editProduct = async (req, res) => {
 
 const deleteProduct = async (req, res) => {
   const _id = req.params.id;
-  // const user = req.user;
-  // if(user.role !== 'Admin') {
-  //     return res.status(403).json({
-  //         message: 'Unauthorized'
-  //     })
-  // }
+  const user = req.user;
+  if (user.role !== "Admin") {
+    return res.status(403).json({
+      message: "Unauthorized",
+    });
+  }
   try {
     const product = await Product.findByIdAndDelete(_id);
     return res.json({
@@ -82,10 +82,10 @@ const deleteProduct = async (req, res) => {
 const getSingleProduct = async (req, res) => {
   const _id = req.params.id;
   // const user = req.user;
-  // if(user.role !== 'Admin') {
-  //     return res.status(403).json({
-  //         message: 'Unauthorized'
-  //     })
+  // if (user.role !== "Admin") {
+  //   return res.status(403).json({
+  //     message: "Unauthorized",
+  //   });
   // }
   try {
     const product = await Product.findById(_id).populate("category");
@@ -101,14 +101,23 @@ const getSingleProduct = async (req, res) => {
 };
 
 const getProducts = async (req, res) => {
+  const category = req.query.category;
   // const user = req.user;
-  // if(user.role !== 'Admin') {
-  //     return res.status(403).json({
-  //         message: 'Unauthorized'
-  //     })
+  // if (user.role !== "Admin") {
+  //   return res.status(403).json({
+  //     message: "Unauthorized",
+  //   });
   // }
   try {
-    const products = await Product.find().populate("category", "name");
+    let products;
+    if (category === "null") {
+      products = await Product.find().populate("category", "name");
+    } else {
+      products = await Product.find({ category: category }).populate(
+        "category",
+        "name"
+      );
+    }
     return res.json({
       products: products,
     });

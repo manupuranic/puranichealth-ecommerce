@@ -1,13 +1,13 @@
 import Category from "../models/category.js";
 
 const postNewCategory = async (req, res) => {
-  // const user = req.user;
+  const user = req.user;
   const { name } = req.body;
-  // if(user.role !== 'Admin') {
-  //     return res.status(403).json({
-  //         message: 'Unauthorized'
-  //     })
-  // }
+  if (user.role !== "Admin") {
+    return res.status(403).json({
+      message: "Unauthorized",
+    });
+  }
   try {
     const category = await Category.create({
       name: name,
@@ -26,14 +26,14 @@ const postNewCategory = async (req, res) => {
 };
 
 const editCategory = async (req, res) => {
-  // const user = req.user;
+  const user = req.user;
   const { name } = req.body;
   const _id = req.params.id;
-  // if(user.role !== 'Admin') {
-  //     return res.status(403).json({
-  //         message: 'Unauthorized'
-  //     })
-  // }
+  if (user.role !== "Admin") {
+    return res.status(403).json({
+      message: "Unauthorized",
+    });
+  }
   try {
     const category = await Category.findById(_id);
     category.name = name;
@@ -52,11 +52,11 @@ const editCategory = async (req, res) => {
 };
 
 const getCategories = async (req, res) => {
-  // const user = req.user;
-  // if(user.role !== 'Admin') {
-  //     return res.status(403).json({
-  //         message: 'Unauthorized'
-  //     })
+  const user = req.user;
+  // if (user.role !== "Admin") {
+  //   return res.status(403).json({
+  //     message: "Unauthorized",
+  //   });
   // }
   try {
     const categories = await Category.find();
@@ -88,13 +88,13 @@ const getSingleCategory = async (req, res) => {
 };
 
 const deleteCategory = async (req, res) => {
-  // const user = req.user;
+  const user = req.user;
   const _id = req.params.id;
-  // if(user.role !== 'Admin') {
-  //     return res.status(403).json({
-  //         message: 'Unauthorized'
-  //     })
-  // }
+  if (user.role !== "Admin") {
+    return res.status(403).json({
+      message: "Unauthorized",
+    });
+  }
   try {
     await Category.deleteOne({ _id: _id });
     return res.json({

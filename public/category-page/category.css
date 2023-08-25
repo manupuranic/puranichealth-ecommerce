@@ -1,0 +1,19 @@
+#categoryDiv {
+  margin: 3%;
+}
+
+.card {
+  position: relative;
+  cursor: pointer;
+  height: 250px;
+}
+.card-body {
+  position: absolute;
+  text-align: center;
+  top: 40%;
+}
+
+.card:hover {
+  background-color: #096ea0;
+  color: white;
+}

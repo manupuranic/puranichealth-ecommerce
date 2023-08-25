@@ -27,8 +27,7 @@ if (token) {
   auth.appendChild(document.createTextNode("Logout"));
   user = parseJwt(token);
 } else {
-  auth.id = "login";
-  auth.appendChild(document.createTextNode("Login"));
+  window.location.href = "../login/login.html";
 }
 
 if (user && user.role !== "Admin") {
@@ -52,13 +51,13 @@ const saveBtn = document.getElementById("saveBtn");
 
 if (login)
   login.addEventListener("click", () => {
-    window.location.href = "./login/login.html";
+    window.location.href = "../login/login.html";
   });
 
 if (logout)
   logout.addEventListener("click", () => {
     localStorage.removeItem("token");
-    window.location.href = "./index.html";
+    window.location.href = "../index.html";
   });
 
 const messageHandler = (message, type) => {
@@ -68,6 +67,16 @@ const messageHandler = (message, type) => {
     msg.innerText = "";
     msg.className = "";
   }, 5000);
+};
+
+const manageCartBadge = () => {
+  const cartCount = localStorage.getItem("cartCount");
+  const countDiv = document.querySelector(".badge");
+  if (cartCount === "true") {
+    countDiv.style.display = "block";
+  } else {
+    countDiv.style.display = "none";
+  }
 };
 
 const displayProduct = (product) => {
@@ -116,7 +125,9 @@ const displayProduct = (product) => {
   deleteBtn.addEventListener("click", async (e) => {
     const productId = e.target.parentElement.parentElement.id;
     try {
-      const response = await axios.delete(`${baseUrl}/product/${productId}`);
+      const response = await axios.delete(`${baseUrl}/product/${productId}`, {
+        headers: { Authentication: token },
+      });
       const product = response.data.product;
       getProducts();
     } catch (error) {
@@ -128,7 +139,7 @@ const displayProduct = (product) => {
 const getProducts = async () => {
   productList.replaceChildren();
   try {
-    const response = await axios.get(`${baseUrl}/product`);
+    const response = await axios.get(`${baseUrl}/product?category=null`);
     const products = response.data.products;
     products.forEach((product) => {
       displayProduct(product);
@@ -160,6 +171,7 @@ const getCategory = async () => {
 document.addEventListener("DOMContentLoaded", () => {
   getProducts();
   getCategory();
+  manageCartBadge();
 });
 
 const addNewProductFormHandler = async () => {
@@ -200,7 +212,9 @@ const addNewProductFormHandler = async () => {
     }
 
     try {
-      const response = await networkCall(Url, productDetails);
+      const response = await networkCall(Url, productDetails, {
+        headers: { Authentication: token },
+      });
       const product = response.data.product;
       messageHandler("Product Created", "success");
       productName.value = "";
@@ -225,6 +239,13 @@ addNewProduct.addEventListener("click", () => {
   document.getElementById("category").value = "";
   document.getElementById("desc").value = "";
   document.getElementById("hidden-input").value = "";
+});
+
+const home = document.getElementById("home");
+home.addEventListener("click", () => {
+  localStorage.removeItem("categoryId");
+  localStorage.setItem("category", "All");
+  window.location.href = "../index.html";
 });
 
 saveBtn.addEventListener("click", addNewProductFormHandler);
