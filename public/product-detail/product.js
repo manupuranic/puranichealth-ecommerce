@@ -93,7 +93,10 @@ const getProductDetails = async () => {
     productPrice.appendChild(document.createTextNode(`₹ ${product.price}`));
     productDesc.appendChild(document.createTextNode(product.desc));
     addToCartBtn.addEventListener("click", async (e) => {
-      loader.parentElement.style.display = "none";
+      if (!token) {
+        window.location.href = "../login/login.html";
+      }
+      loader.parentElement.style.display = "block";
       try {
         const response = await axios.post(
           `${baseUrl}/cart`,

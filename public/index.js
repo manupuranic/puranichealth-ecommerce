@@ -103,6 +103,9 @@ const displayProducts = (product) => {
   });
 
   addToCartBtn.addEventListener("click", async (e) => {
+    if (!token) {
+      window.location.href = "./login/login.html";
+    }
     loader.parentElement.style.display = "block";
     const productId = _id;
     console.log(productId);

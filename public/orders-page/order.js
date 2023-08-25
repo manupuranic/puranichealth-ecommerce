@@ -84,7 +84,7 @@ const displayOrder = (order) => {
   const productList = document.querySelector(`[order-id="${order._id}"]`);
   console.log(productList);
 
-  order.products.forEach((product, quantity) => {
+  order.products.forEach((product) => {
     const productLi = document.createElement("li");
     productLi.className = "list-group-item product-line";
     productLi.innerHTML = `<div class="product-info">
@@ -92,7 +92,7 @@ const displayOrder = (order) => {
                         </div>
                         <div class="pricing-info">
                           <h5 class="product-price">₹${product.product.price}</h5>
-                          <h5 class="productQty">Qty: ${quantity}</h5>
+                          <h5 class="productQty">Qty: ${product.quantity}</h5>
                         </div>`;
 
     productList.appendChild(productLi);
