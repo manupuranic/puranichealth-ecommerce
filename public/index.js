@@ -2,6 +2,11 @@ const baseUrl = "https://shop.puranic.in";
 const auth = document.querySelector(".nav-item .auth");
 
 const token = localStorage.getItem("token");
+const category = localStorage.getItem("category");
+console.log(category);
+if (category === null) {
+  localStorage.setItem("category", "All");
+}
 
 let user;
 
